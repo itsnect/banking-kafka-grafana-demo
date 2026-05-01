@@ -1,0 +1,6 @@
+kafka-python-ng
+pydantic
+psycopg2-binary
+prometheus-client==0.20.0
+rich==13.7.1
+kafka

@@ -1,0 +1,96 @@
+{
+  "title": "NECT — Kafka Demo: Transacciones en Tiempo Real",
+  "uid": "nect-kafka-demo",
+  "version": 1,
+  "refresh": "5s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Transacciones por Minuto",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "rate(nect_transacciones_total[1m]) * 60",
+          "legendFormat": "{{tipo}} — {{region}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Total Transacciones",
+      "type": "stat",
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(nect_transacciones_total)",
+          "legendFormat": "Total"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "🚨 Alertas de Fraude",
+      "type": "stat",
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "nect_alertas_fraude_potencial_total",
+          "legendFormat": "Alertas"
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "thresholds": {
+          "steps": [
+            { "color": "green", "value": 0 },
+            { "color": "red", "value": 1 }
+          ]
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Monto Acumulado (CLP)",
+      "type": "stat",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(nect_monto_total_clp)",
+          "legendFormat": "Total CLP"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "Distribución de Montos",
+      "type": "histogram",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "nect_monto_clp_bucket",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Transacciones por Tipo",
+      "type": "piechart",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum by (tipo) (nect_transacciones_total)",
+          "legendFormat": "{{tipo}}"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "time": { "from": "now-5m", "to": "now" }
+}
